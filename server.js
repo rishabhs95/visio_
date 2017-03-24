@@ -56,7 +56,7 @@ var parameters = {
 
 
 var params = {
-  screen_name: 'visio_'
+  screen_name: 'MKBHD'
 };
 
 storage.initSync();
@@ -70,18 +70,20 @@ app.get('/', function(req, res) {
 
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
+      // console.log(tweets);
       storage.setItemSync('name', tweets);
       for (var i = 0; i < tweets.length; i++) {
         var res = {};
         if (tweets[i].extended_entities !== undefined) {
           res['text'] = tweets[i].text;
+          res['name'] = tweets[i].user.screen_name;
           var img_url = tweets[i].extended_entities.media[0].media_url;
-          // console.log(img_url);
           res['img'] = img_url;
           imgURL.push(img_url);
 
           storage.setItemSync('img_URL', imgURL);
-
+          results.push(res);
+          storage.setItemSync('mixedJSON', results);
           var descOptions = {
             method: 'POST',
             headers: {
@@ -115,11 +117,6 @@ app.get('/', function(req, res) {
           rp(descOptions)
             .then(function(parsedBody) {
               descr.push(parsedBody.description.captions[0]);
-              res['desc'] = parsedBody.description.captions[0].text;
-              // console.log(res);
-              results.push(res);
-              console.log(results);
-              storage.setItemSync('mixedJSON', results);
               storage.setItemSync('desc', descr);
               // console.log(descr);
             })
@@ -141,14 +138,18 @@ app.get('/', function(req, res) {
     }
   });
 
+
   var tweetArr = storage.getItemSync('name');
   var desc = storage.getItemSync('desc');
   var img_urls = storage.getItemSync('img_URL');
   var mixed = storage.getItemSync('mixedJSON');
-
-  // console.log(tweetArr);
-  // console.log(desc);
-  // console.log(mixed);
+  console.log(mixed);
+  desc.forEach( function(element, index) {
+    // mixed[index]['desc'] = desc[index];
+    console.log(desc[index]);
+  });
+  /*console.log("Changed");
+  console.log(mixed);*/
 
   res.render('index.ejs', {
     tweetArr: tweetArr,
