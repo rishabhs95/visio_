@@ -23,21 +23,18 @@
     <br>
 
 
-    <h3> tweet </h3>
+    <h4> tweet </h4>
     <% tweetArr.forEach(function(tweetArr) { %>
 
       <input onclick='responsiveVoice.speak(<%= JSON.stringify(tweetArr.text) %>);' type='button' value='🔊 Play'/>
     <% }); %>
 
-    <h3> desc </h3>
+    <h4> Desc </h4>
     <% desc.forEach(function(desc) { %>
-
-      <input onclick='responsiveVoice.speak(<%= JSON.stringify(desc.text) %>);' type='button' value='🔊 Play'/>
+    <input onclick='responsiveVoice.speak(<%= JSON.stringify(desc.text) %>);' type='button' value='🔊 Play'/>
     <% }); %>
 
-    <div>
-      <a class="twitter-timeline" data-chrome="noscrollbar" data-width="1000" data-height="1000" href="https://twitter.com/MKBHD" style="overflow-x:hidden;">Tweets by MKBHD</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
+    
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="../js/materialize.min.js"></script>

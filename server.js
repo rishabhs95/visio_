@@ -99,14 +99,14 @@ app.get('/', function(req, res) {
   });
 
   var tweetArr = storage.getItemSync('name');
-  var desc = storage.getItemSync('descr');
+  var desc = storage.getItemSync('desc');
 
   console.log(tweetArr);
   console.log(desc);
 
   res.render('index.ejs', {
     tweetArr: tweetArr,
-    desc: descr
+    desc: desc
   });
 
 });
