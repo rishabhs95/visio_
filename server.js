@@ -58,6 +58,7 @@ storage.initSync();
 app.get('/', function(req, res) {
 
   var tweets = [];
+  var descr = [];
 
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
@@ -85,9 +86,9 @@ app.get('/', function(req, res) {
 
           rp(options)
               .then(function (parsedBody) {
-                  var desc = parsedBody.description.captions[0];
-                  storage.setItemSync('desc', desc);
-                  console.log(desc);
+                  descr.push(parsedBody.description.captions[0]);
+                  storage.setItemSync('desc', descr);
+                  console.log(descr);
               })
               .catch(function (err) {
                   throw err;
@@ -98,11 +99,14 @@ app.get('/', function(req, res) {
   });
 
   var tweetArr = storage.getItemSync('name');
-  var desc = storage.getItemSync('desc');
+  var desc = storage.getItemSync('descr');
+
+  console.log(tweetArr);
+  console.log(desc);
 
   res.render('index.ejs', {
     tweetArr: tweetArr,
-    desc: desc
+    desc: descr
   });
 
 });
