@@ -3,6 +3,7 @@ var app      = express();
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var flash    = require('connect-flash');
+var storage = require('node-persist');
 
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -41,23 +42,30 @@ var client = new Twitter({
 
 var params = {screen_name: 'equate_rs'};
 
-console.log(tweets);
+// console.log(tweets);
+
+
+storage.initSync();
 
 app.get('/', function(req, res) {
 
   var tweets = [];
+
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
-      console.log(tweets);
-      for (var i = 0; i < tweets.length; i++) {
+      // console.log(tweets);
+      storage.setItemSync('name', tweets);
+      /*for (var i = 0; i < tweets.length; i++) {
         console.log(tweets[i].text);
-      }
+      }*/
     }
   });
   
-  res.render('index.ejs'/*, {
-        tweets:
-  }*/);
+  var tweetArr = storage.getItemSync('name');
+  
+  res.render('index.ejs', {
+    tweetArr: tweetArr
+  });
 
 });
 
