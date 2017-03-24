@@ -1,25 +1,29 @@
-var express  = require('express');
-var app      = express();
-var port     = process.env.PORT || 8080;
+var express = require('express');
+var app = express();
+var port = process.env.PORT || 8080;
 var mongoose = require('mongoose');
-var flash    = require('connect-flash');
+var flash = require('connect-flash');
 var storage = require('node-persist');
 var cognitiveServices = require('cognitive-services');
 var rp = require('request-promise');
 
-var morgan       = require('morgan');
+var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var session      = require('express-session');
+var bodyParser = require('body-parser');
+var session = require('express-session');
 
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.set('view engine', 'ejs');
 
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' }));
+app.use(session({
+  secret: 'ilovescotchscotchyscotchscotch'
+}));
 app.use(flash());
 
 app.use(express.static(__dirname + '/public'));
@@ -28,7 +32,7 @@ app.set('views', __dirname + '/views');
 var Twitter = require('twitter');
 
 var computerVision = cognitiveServices.computerVision({
-    API_KEY: '92975dfa345a423c8756e800f9ed0b14'
+  API_KEY: '92975dfa345a423c8756e800f9ed0b14'
 })
 
 var client = new Twitter({
@@ -47,11 +51,13 @@ var client = new Twitter({
 };*/
 
 var parameters = {
-    visualFeatures: "Categories"
+  visualFeatures: "Categories"
 };
 
 
-var params = {screen_name: 'mkbhd'};
+var params = {
+  screen_name: 'mkbhd'
+};
 
 storage.initSync();
 
@@ -65,34 +71,59 @@ app.get('/', function(req, res) {
       storage.setItemSync('name', tweets);
 
       for (var i = 0; i < tweets.length; i++) {
-        if(tweets[i].extended_entities !== undefined) {
+        if (tweets[i].extended_entities !== undefined) {
           var img_url = tweets[i].extended_entities.media[0].media_url;
           console.log(img_url);
 
-          var options = {
-              method: 'POST',
-              headers: {
-                  'Ocp-Apim-Subscription-Key': '92975dfa345a423c8756e800f9ed0b14'
-              },
-              uri: 'https://westus.api.cognitive.microsoft.com/vision/v1.0/describe',
-              qs: {
-                  maxCandidates: 1
-              },
-              body: {
-                  url: img_url
-              },
-              json: true // Automatically stringifies the body to JSON 
+          var descOptions = {
+            method: 'POST',
+            headers: {
+              'Ocp-Apim-Subscription-Key': '92975dfa345a423c8756e800f9ed0b14'
+            },
+            uri: 'https://westus.api.cognitive.microsoft.com/vision/v1.0/describe',
+            qs: {
+              maxCandidates: 1
+            },
+            body: {
+              url: img_url
+            },
+            json: true // Automatically stringifies the body to JSON
           };
 
-          rp(options)
-              .then(function (parsedBody) {
-                  descr.push(parsedBody.description.captions[0]);
-                  storage.setItemSync('desc', descr);
-                  console.log(descr);
-              })
-              .catch(function (err) {
-                  throw err;
-              });
+          var recogOptions = {
+            method: 'POST',
+            headers: {
+              'Ocp-Apim-Subscription-Key': ''
+            },
+            uri: 'https://westus.api.cognitive.microsoft.com/vision/v1.0/recognize',
+            qs: {
+              maxCandidates: 1
+            },
+            body: {
+              url: img_url
+            },
+            json: true // Automatically stringifies the body to JSON
+          };
+
+          rp(descOptions)
+            .then(function(parsedBody) {
+              descr.push(parsedBody.description.captions[0]);
+              storage.setItemSync('desc', descr);
+              console.log(descr);
+            })
+            .catch(function(err) {
+              throw err;
+            });
+
+          rp(descOptions)
+            .then(function(parsedBody) {
+              /*descr.push(parsedBody.description.captions[0]);
+              storage.setItemSync('recognize', );*/
+              console.log(parsedBody);
+            })
+            .catch(function(err) {
+              throw err;
+            });
         }
       }
     }
