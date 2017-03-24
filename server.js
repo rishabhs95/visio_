@@ -115,7 +115,7 @@ app.get('/', function(req, res) {
               throw err;
             });
 
-          rp(descOptions)
+          rp(recogOptions)
             .then(function(parsedBody) {
               /*descr.push(parsedBody.description.captions[0]);
               storage.setItemSync('recognize', );*/
