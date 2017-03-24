@@ -55,9 +55,13 @@ app.get('/', function(req, res) {
     if (!error) {
       // console.log(tweets);
       storage.setItemSync('name', tweets);
-      /*for (var i = 0; i < tweets.length; i++) {
-        console.log(tweets[i].text);
-      }*/
+      for (var i = 0; i < tweets.length; i++) {
+        // console.log(tweets[i].extended_entities);
+        if(tweets[i].extended_entities !== undefined) {
+          // console.log("Yayayayay" + i);
+          console.log(tweets[i].extended_entities.media[0].media_url);
+        }
+      }
     }
   });
   
