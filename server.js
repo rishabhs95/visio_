@@ -40,7 +40,7 @@ var client = new Twitter({
     callBackUrl: 'http://localhost:8080/auth/twitter/callback'
 };*/
 
-var params = {screen_name: 'equate_rs'};
+var params = {screen_name: 'MKBHD'};
 
 // console.log(tweets);
 

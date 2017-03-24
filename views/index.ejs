@@ -25,13 +25,7 @@
     
     <% tweetArr.forEach(function(tweetArr) { %>
       
-      <input onclick='playSound()' type='button' value='🔊 Play' type='hidden' controls autoplay />
-      <script>
-        function playSound () {
-          var tw = <%= tweetArr.text %>;
-          responsiveVoice.speak(tw);
-        }
-      </script>
+      <input onclick='responsiveVoice.speak(<%= JSON.stringify(tweetArr.text) %>);' type='button' value='🔊 Play' id="" type=hidden />
     <% }); %>
 
     <div>
