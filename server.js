@@ -39,21 +39,26 @@ var client = new Twitter({
     callBackUrl: 'http://localhost:8080/auth/twitter/callback'
 };*/
 
-var params = {screen_name: 'royalharsh95'};
-var tweetsArr = [];
-client.get('statuses/user_timeline', params, function(error, tweets, response) {
-  if (!error) {
-    console.log(tweets);
-    for (var i = 0; i < tweets.length; i++) {
-      console.log(tweets[i].text);
-    }
-  }
-});
+var params = {screen_name: 'equate_rs'};
 
-console.log(tweetsArr);
+console.log(tweets);
 
 app.get('/', function(req, res) {
-	res.render('index.ejs');
+
+  var tweets = [];
+  client.get('statuses/user_timeline', params, function(error, tweets, response) {
+    if (!error) {
+      console.log(tweets);
+      for (var i = 0; i < tweets.length; i++) {
+        console.log(tweets[i].text);
+      }
+    }
+  });
+  
+  res.render('index.ejs'/*, {
+        tweets:
+  }*/);
+
 });
 
 app.listen(port);
