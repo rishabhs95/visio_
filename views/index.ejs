@@ -22,11 +22,16 @@
     </div>
     <br>
 
-    
+
+    <h3> tweet </h3>
     <% tweetArr.forEach(function(tweetArr) { %>
-      
+
       <input onclick='responsiveVoice.speak(<%= JSON.stringify(tweetArr.text) %>);' type='button' value='🔊 Play' id="" type=hidden />
     <% }); %>
+
+    <h3> desc </h3>
+    <% desc %>
+
 
     <div>
       <a class="twitter-timeline" data-chrome="noscrollbar" data-width="1000" data-height="1000" href="https://twitter.com/MKBHD" style="overflow-x:hidden;">Tweets by MKBHD</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>

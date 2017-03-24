@@ -4,6 +4,8 @@ var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var flash    = require('connect-flash');
 var storage = require('node-persist');
+var cognitiveServices = require('cognitive-services');
+var rp = require('request-promise');
 
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -25,6 +27,10 @@ app.set('views', __dirname + '/views');
 
 var Twitter = require('twitter');
 
+var computerVision = cognitiveServices.computerVision({
+    API_KEY: '92975dfa345a423c8756e800f9ed0b14'
+})
+
 var client = new Twitter({
   consumer_key: 'I1fumJtHqLRwLc4oPzqkghqoD',
   consumer_secret: 'J7vMfxXVI4zZyXqFtoLPV2fwyUQWVP8Dh1Ky6PBgFUAZd4xD0C',
@@ -40,7 +46,12 @@ var client = new Twitter({
     callBackUrl: 'http://localhost:8080/auth/twitter/callback'
 };*/
 
-var params = {screen_name: 'MKBHD'};
+var parameters = {
+    visualFeatures: "Categories"
+};
+
+
+var params = {screen_name: 'mkbhd'};
 
 storage.initSync();
 
@@ -53,19 +64,45 @@ app.get('/', function(req, res) {
       storage.setItemSync('name', tweets);
 
       for (var i = 0; i < tweets.length; i++) {
-        // console.log(tweets[i].extended_entities);
         if(tweets[i].extended_entities !== undefined) {
-          // console.log("Yayayayay" + i);
-          console.log(tweets[i].extended_entities.media[0].media_url);
+          var img_url = tweets[i].extended_entities.media[0].media_url;
+          console.log(img_url);
+
+          var options = {
+              method: 'POST',
+              headers: {
+                  'Ocp-Apim-Subscription-Key': '92975dfa345a423c8756e800f9ed0b14'
+              },
+              uri: 'https://westus.api.cognitive.microsoft.com/vision/v1.0/describe',
+              qs: {
+                  maxCandidates: 1
+              },
+              body: {
+                  url: img_url
+              },
+              json: true // Automatically stringifies the body to JSON 
+          };
+
+          rp(options)
+              .then(function (parsedBody) {
+                  var desc = parsedBody.description.captions[0];
+                  storage.setItemSync('desc', desc);
+                  console.log(desc);
+              })
+              .catch(function (err) {
+                  throw err;
+              });
         }
       }
     }
   });
 
   var tweetArr = storage.getItemSync('name');
+  var desc = storage.getItemSync('desc');
 
   res.render('index.ejs', {
-    tweetArr: tweetArr
+    tweetArr: tweetArr,
+    desc: desc
   });
 
 });
