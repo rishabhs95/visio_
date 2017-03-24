@@ -70,13 +70,13 @@ app.get('/', function(req, res) {
 
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
-      var res = {};
       storage.setItemSync('name', tweets);
       for (var i = 0; i < tweets.length; i++) {
+        var res = {};
         if (tweets[i].extended_entities !== undefined) {
           res['text'] = tweets[i].text;
           var img_url = tweets[i].extended_entities.media[0].media_url;
-          console.log(img_url);
+          // console.log(img_url);
           res['img'] = img_url;
           imgURL.push(img_url);
 
@@ -97,7 +97,7 @@ app.get('/', function(req, res) {
             json: true // Automatically stringifies the body to JSON
           };
 
-          var recogOptions = {
+          /*var recogOptions = {
             method: 'POST',
             headers: {
               'Ocp-Apim-Subscription-Key': ''
@@ -110,33 +110,34 @@ app.get('/', function(req, res) {
               url: img_url
             },
             json: true // Automatically stringifies the body to JSON
-          };
+          };*/
 
           rp(descOptions)
             .then(function(parsedBody) {
               descr.push(parsedBody.description.captions[0]);
               res['desc'] = parsedBody.description.captions[0].text;
-              console.log(res);
+              // console.log(res);
               results.push(res);
+              console.log(results);
+              storage.setItemSync('mixedJSON', results);
               storage.setItemSync('desc', descr);
-              console.log(descr);
+              // console.log(descr);
             })
             .catch(function(err) {
               throw err;
             });
 
-          rp(recogOptions)
+          /*rp(recogOptions)
             .then(function(parsedBody) {
-              /*descr.push(parsedBody.description.captions[0]);
-              storage.setItemSync('recognize', );*/
+              descr.push(parsedBody.description.captions[0]);
+              storage.setItemSync('recognize', );
               console.log(parsedBody);
             })
             .catch(function(err) {
               throw err;
-            });
+            });*/
         }
       }
-      storage.setItemSync('mixedJSON', results);
     }
   });
 
@@ -147,7 +148,7 @@ app.get('/', function(req, res) {
 
   // console.log(tweetArr);
   // console.log(desc);
-  console.log(mixed);
+  // console.log(mixed);
 
   res.render('index.ejs', {
     tweetArr: tweetArr,
