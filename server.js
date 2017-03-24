@@ -40,11 +40,17 @@ var client = new Twitter({
 };*/
 
 var params = {screen_name: 'royalharsh95'};
+var tweetsArr = [];
 client.get('statuses/user_timeline', params, function(error, tweets, response) {
   if (!error) {
-    console.log(tweets[0].created_at);
+    console.log(tweets);
+    for (var i = 0; i < tweets.length; i++) {
+      console.log(tweets[i].text);
+    }
   }
 });
+
+console.log(tweetsArr);
 
 app.get('/', function(req, res) {
 	res.render('index.ejs');
