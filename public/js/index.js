@@ -1,5 +1,5 @@
 $(function(){
-    $(a.say).on('click', function(e){
+    $('a.say').on('click', function(e){
         e.preventDefault();
         var text = $('input[name="text"]').val();
         text = encodeURIComponent(text);
