@@ -42,9 +42,6 @@ var client = new Twitter({
 
 var params = {screen_name: 'MKBHD'};
 
-// console.log(tweets);
-
-
 storage.initSync();
 
 app.get('/', function(req, res) {
@@ -53,16 +50,12 @@ app.get('/', function(req, res) {
 
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
-      // console.log(tweets);
       storage.setItemSync('name', tweets);
-      /*for (var i = 0; i < tweets.length; i++) {
-        console.log(tweets[i].text);
-      }*/
     }
   });
-  
+
   var tweetArr = storage.getItemSync('name');
-  
+
   res.render('index.ejs', {
     tweetArr: tweetArr
   });
