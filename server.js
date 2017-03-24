@@ -75,7 +75,10 @@ app.get('/', function(req, res) {
       for (var i = 0; i < tweets.length; i++) {
         var res = {};
         if (tweets[i].extended_entities !== undefined) {
-          res['text'] = tweets[i].text;
+          var res_text = tweets[i].text;
+          res_text = res_text.replace(/https?:\/\/t.co\/.+/,'');
+          console.log(res_text);
+          res['text'] = res_text;
           res['name'] = tweets[i].user.screen_name;
           var img_url = tweets[i].extended_entities.media[0].media_url;
           res['img'] = img_url;

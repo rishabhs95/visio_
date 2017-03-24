@@ -23,9 +23,9 @@
     <br>
 
 
-    <% tweetArr.forEach(function(tweetArr) { %>
+    <% mixed.forEach(function(mixed) { %>
 
-      <button onclick='responsiveVoice.speak(<%= JSON.stringify(tweetArr.text) %>);' class="waves-effect waves-light hide btn" style="margin: 5px;">🔊 Play</button>
+      <button onclick='responsiveVoice.speak(<%= JSON.stringify(mixed.text) %>);' class="waves-effect waves-light hide btn" style="margin: 5px;">🔊 Play</button>
     <% }); %>
 
 
