@@ -22,11 +22,12 @@
     </div>
     <br>
 
+    
 
-    <h4> tweet </h4>
+    <h4 class="center-align"> tweet </h4>
     <% tweetArr.forEach(function(tweetArr) { %>
 
-      <input onclick='responsiveVoice.speak(<%= JSON.stringify(tweetArr.text) %>);' type='button' value='🔊 Play' class="waves-effect waves-light btn" style="margin: 5px;" />
+      <button onclick='responsiveVoice.speak(<%= JSON.stringify(tweetArr.text) %>);' class="waves-effect waves-light btn" style="margin: 5px;">🔊 Play</button>
     <% }); %>
 
     <h4> Desc </h4>
@@ -34,7 +35,12 @@
     <button onclick='responsiveVoice.speak(<%= JSON.stringify(desc.text) %>);' class="waves-effect waves-light btn" style="margin: 5px;">🔊 Play</button>
     <% }); %>
 
-    
+    <h4> Mixed </h4>
+    <% mixed.forEach(function(mixed) { %>
+      <p> <%= mixed.text %> </p>
+      <p> <%= mixed.img %> </p>
+      <p> <%= mixed.desc %> </p>
+    <% }); %>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="../js/materialize.min.js"></script>

@@ -13,6 +13,10 @@ h1 {
 	font-family: 'Shadows Into Light', cursive; 
 }
 
+h4 {
+	font-family: 'Roboto', thin;	
+}
+
 #status {
 	position: absolute;
 	top: 32%;

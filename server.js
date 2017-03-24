@@ -56,7 +56,7 @@ var parameters = {
 
 
 var params = {
-  screen_name: 'mkbhd'
+  screen_name: 'visio_'
 };
 
 storage.initSync();
@@ -65,15 +65,22 @@ app.get('/', function(req, res) {
 
   var tweets = [];
   var descr = [];
+  var imgURL = [];
+  var results = [];
 
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
+      var res = {};
       storage.setItemSync('name', tweets);
-
       for (var i = 0; i < tweets.length; i++) {
         if (tweets[i].extended_entities !== undefined) {
+          res['text'] = tweets[i].text;
           var img_url = tweets[i].extended_entities.media[0].media_url;
           console.log(img_url);
+          res['img'] = img_url;
+          imgURL.push(img_url);
+
+          storage.setItemSync('img_URL', imgURL);
 
           var descOptions = {
             method: 'POST',
@@ -108,6 +115,9 @@ app.get('/', function(req, res) {
           rp(descOptions)
             .then(function(parsedBody) {
               descr.push(parsedBody.description.captions[0]);
+              res['desc'] = parsedBody.description.captions[0].text;
+              console.log(res);
+              results.push(res);
               storage.setItemSync('desc', descr);
               console.log(descr);
             })
@@ -126,18 +136,24 @@ app.get('/', function(req, res) {
             });
         }
       }
+      storage.setItemSync('mixedJSON', results);
     }
   });
 
   var tweetArr = storage.getItemSync('name');
   var desc = storage.getItemSync('desc');
+  var img_urls = storage.getItemSync('img_URL');
+  var mixed = storage.getItemSync('mixedJSON');
 
-  console.log(tweetArr);
-  console.log(desc);
+  // console.log(tweetArr);
+  // console.log(desc);
+  console.log(mixed);
 
   res.render('index.ejs', {
     tweetArr: tweetArr,
-    desc: desc
+    desc: desc,
+    img_urls: img_urls,
+    mixed: mixed
   });
 
 });
