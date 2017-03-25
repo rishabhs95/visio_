@@ -22,15 +22,13 @@
     </div>
     <br>
 
-
     <% mixed.forEach(function(mixed) { %>
-
-      <button onclick='responsiveVoice.speak(<%= JSON.stringify(mixed.text) %>);' class="waves-effect waves-light hide btn" style="margin: 5px;">🔊 Play</button>
+        <button onclick='responsiveVoice.speak(<%= JSON.stringify(mixed.name) %> + " posted " + <%= JSON.stringify(mixed.text) %>);' class="waves-effect waves-light hide btn" style="margin: 5px;">🔊 Play</button>
     <% }); %>
 
 
     <% desc.forEach(function(desc) { %>
-    <button onclick='responsiveVoice.speak(<%= JSON.stringify(desc.text) %>);' class="waves-effect waves-light hide btn" style="margin: 5px;">🔊 Play</button>
+        <button onclick='responsiveVoice.speak("I see a picture post with " + <%= JSON.stringify(desc.text) %>);' class="dsc waves-effect waves-light hide btn" style="margin: 5px;">🔊 Play</button>
     <% }); %>
 
     <% mixed.forEach(function(mixed) { %>

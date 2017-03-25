@@ -32,23 +32,15 @@ app.set('views', __dirname + '/views');
 var Twitter = require('twitter');
 
 var computerVision = cognitiveServices.computerVision({
-  API_KEY: '92975dfa345a423c8756e800f9ed0b14'
+   API_KEY: '92975dfa345a423c8756e800f9ed0b14'
 })
 
 var client = new Twitter({
-  consumer_key: 'I1fumJtHqLRwLc4oPzqkghqoD',
-  consumer_secret: 'J7vMfxXVI4zZyXqFtoLPV2fwyUQWVP8Dh1Ky6PBgFUAZd4xD0C',
-  access_token_key: '3017462262-3bJEiTDm87TXcPHVD6CSTADSEZR7ngpfw12iUNH',
-  access_token_secret: '9f7Nn35SD3Qbr4eKdjVzM2YukJiFK7jt4PB4pu4t6Vjfq'
+  consumer_key: 'asQ3HBBRWHNKK43PAUZ1JO1Xk',
+  consumer_secret: 'jjfHX2h4EleIa1ZPGOGWqjLCSxmnhD5DxjEChgd205KpTQpLBT',
+  access_token_key: '3017462262-845203149979738112-TaL2P5jtGxH2TzpBP0dAkaqf4Fs9mRb',
+  access_token_secret: 'HEpf16tO3SdOg6TgW40R5PD9T6zWYJuaxeJV2QzuWvYdp'
 });
-
-/*var config = {
-    consumerKey: 'I1fumJtHqLRwLc4oPzqkghqoD',
-    consumerSecret: 'J7vMfxXVI4zZyXqFtoLPV2fwyUQWVP8Dh1Ky6PBgFUAZd4xD0C',
-    accessToken: '3017462262-3bJEiTDm87TXcPHVD6CSTADSEZR7ngpfw12iUNH',
-    accessTokenSecret: '10f7Nn35SD3Qbr4eKdjVzM2YukJiFK7jt4PB4pu4t6Vjfq',
-    callBackUrl: 'http://localhost:8080/auth/twitter/callback'
-};*/
 
 var parameters = {
   visualFeatures: "Categories"
