@@ -1,5 +1,6 @@
 ### Visio
 
+Visio helps visually impaired people understand and feel what their friends are sharing with the world!
 Made during Hack in the north 2017.
 
 #### Technology
