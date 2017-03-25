@@ -9,8 +9,8 @@ The project uses node.js as the backend and embedded javascript as the view engi
 
 Screenshots:
 
-![Visio](https://ibb.co/fLHyqa)
+![Visio](https://image.ibb.co/jKUpwF/visio.png)
 
-![Visio](https://ibb.co/mNF1Aa)
+![Visio](https://image.ibb.co/cEQewF/visio_1.png)
 
 
