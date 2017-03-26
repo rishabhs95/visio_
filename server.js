@@ -38,7 +38,7 @@ var computerVision = cognitiveServices.computerVision({
 var client = new Twitter({
   consumer_key: 'asQ3HBBRWHNKK43PAUZ1JO1Xk',
   consumer_secret: 'jjfHX2h4EleIa1ZPGOGWqjLCSxmnhD5DxjEChgd205KpTQpLBT',
-  access_token_key: '3017462262-845203149979738112-TaL2P5jtGxH2TzpBP0dAkaqf4Fs9mRb',
+  access_token_key: '845203149979738112-TaL2P5jtGxH2TzpBP0dAkaqf4Fs9mRb',
   access_token_secret: 'HEpf16tO3SdOg6TgW40R5PD9T6zWYJuaxeJV2QzuWvYdp'
 });
 
@@ -48,7 +48,7 @@ var parameters = {
 
 
 var params = {
-  screen_name: 'MKBHD'
+  screen_name: 'visio_'
 };
 
 storage.initSync();
@@ -62,7 +62,7 @@ app.get('/', function(req, res) {
 
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
-      // console.log(tweets);
+      console.log(tweets);
       storage.setItemSync('name', tweets);
       for (var i = 0; i < tweets.length; i++) {
         var res = {};
