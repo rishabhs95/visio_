@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({
 app.set('view engine', 'ejs');
 
 app.use(session({
-  secret: 'ilovescotchscotchyscotchscotch'
+  secret: '<your_own_secret>'
 }));
 app.use(flash());
 
@@ -36,10 +36,10 @@ var computerVision = cognitiveServices.computerVision({
 })
 
 var client = new Twitter({
-  consumer_key: 'asQ3HBBRWHNKK43PAUZ1JO1Xk',
-  consumer_secret: 'jjfHX2h4EleIa1ZPGOGWqjLCSxmnhD5DxjEChgd205KpTQpLBT',
-  access_token_key: '845203149979738112-TaL2P5jtGxH2TzpBP0dAkaqf4Fs9mRb',
-  access_token_secret: 'HEpf16tO3SdOg6TgW40R5PD9T6zWYJuaxeJV2QzuWvYdp'
+  consumer_key: '<insert_your_consumer_key>',
+  consumer_secret: '<insert_your_consumer_secret>',
+  access_token_key: '<insert_your_access_token>',
+  access_token_secret: '<insert_your_secret>'
 });
 
 var parameters = {
@@ -62,14 +62,12 @@ app.get('/', function(req, res) {
 
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
-      console.log(tweets);
       storage.setItemSync('name', tweets);
       for (var i = 0; i < tweets.length; i++) {
         var res = {};
         if (tweets[i].extended_entities !== undefined) {
           var res_text = tweets[i].text;
           res_text = res_text.replace(/https?:\/\/t.co\/.+/,'');
-          console.log(res_text);
           res['text'] = res_text;
           res['name'] = tweets[i].user.screen_name;
           var img_url = tweets[i].extended_entities.media[0].media_url;
@@ -82,7 +80,7 @@ app.get('/', function(req, res) {
           var descOptions = {
             method: 'POST',
             headers: {
-              'Ocp-Apim-Subscription-Key': '92975dfa345a423c8756e800f9ed0b14'
+              'Ocp-Apim-Subscription-Key': '<insert_microsoft_API_key>'
             },
             uri: 'https://westus.api.cognitive.microsoft.com/vision/v1.0/describe',
             qs: {
@@ -94,40 +92,14 @@ app.get('/', function(req, res) {
             json: true // Automatically stringifies the body to JSON
           };
 
-          /*var recogOptions = {
-            method: 'POST',
-            headers: {
-              'Ocp-Apim-Subscription-Key': ''
-            },
-            uri: 'https://westus.api.cognitive.microsoft.com/vision/v1.0/recognize',
-            qs: {
-              maxCandidates: 1
-            },
-            body: {
-              url: img_url
-            },
-            json: true // Automatically stringifies the body to JSON
-          };*/
-
           rp(descOptions)
             .then(function(parsedBody) {
               descr.push(parsedBody.description.captions[0]);
               storage.setItemSync('desc', descr);
-              // console.log(descr);
             })
             .catch(function(err) {
               throw err;
             });
-
-          /*rp(recogOptions)
-            .then(function(parsedBody) {
-              descr.push(parsedBody.description.captions[0]);
-              storage.setItemSync('recognize', );
-              console.log(parsedBody);
-            })
-            .catch(function(err) {
-              throw err;
-            });*/
         }
       }
     }
@@ -138,13 +110,6 @@ app.get('/', function(req, res) {
   var desc = storage.getItemSync('desc');
   var img_urls = storage.getItemSync('img_URL');
   var mixed = storage.getItemSync('mixedJSON');
-  console.log(mixed);
-  desc.forEach( function(element, index) {
-    // mixed[index]['desc'] = desc[index];
-    console.log(desc[index]);
-  });
-  /*console.log("Changed");
-  console.log(mixed);*/
 
   res.render('index.ejs', {
     tweetArr: tweetArr,
