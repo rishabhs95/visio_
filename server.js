@@ -62,14 +62,12 @@ app.get('/', function(req, res) {
 
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
-      console.log(tweets);
       storage.setItemSync('name', tweets);
       for (var i = 0; i < tweets.length; i++) {
         var res = {};
         if (tweets[i].extended_entities !== undefined) {
           var res_text = tweets[i].text;
           res_text = res_text.replace(/https?:\/\/t.co\/.+/,'');
-          console.log(res_text);
           res['text'] = res_text;
           res['name'] = tweets[i].user.screen_name;
           var img_url = tweets[i].extended_entities.media[0].media_url;
@@ -98,7 +96,6 @@ app.get('/', function(req, res) {
             .then(function(parsedBody) {
               descr.push(parsedBody.description.captions[0]);
               storage.setItemSync('desc', descr);
-              // console.log(descr);
             })
             .catch(function(err) {
               throw err;
