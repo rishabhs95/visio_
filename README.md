@@ -31,6 +31,12 @@ to choose what they want to listen to and what they don't.
 ```
 We aim to make the world more open and connected and that goes for everyone
 ```
+### Instructions on how to run
+ 
+ - npm install
+ - node server.js
+ - Browse to http://localhost:8080
+
 
 #### Technology
 
